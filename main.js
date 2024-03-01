@@ -6,9 +6,9 @@ $(document).ready(function () {
                 .then(results => results.map(results => {
                     return {
 
-                        label: results.title,
-                        value: results.title,
-                        id: results._id
+                        label: result.title,
+                        value: result.title,
+                        id: result._id
                     }
                 }))
             response(data)
@@ -16,11 +16,11 @@ $(document).ready(function () {
         minLength: 2,
         select: function(event, ui) {
             console.log(ui.item.id)
-            fetch(`http://localhost:3000/get/${ui.item.id}`)
+            fetch(`http://localhost:8000/get/${ui.item.id}`)
                 .then(result => result.json())
                 .then(result => {
                     $('#cast').empty()
-                    results.cast.forEach(cast =>
+                    result.cast.forEach(cast =>
                         {
                             $(cast).append(`<li>${cast}</li>`)
                         })
@@ -28,6 +28,4 @@ $(document).ready(function () {
                 })
         }
     })
-}
-
-)
+})
