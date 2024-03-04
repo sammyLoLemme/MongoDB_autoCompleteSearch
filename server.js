@@ -5,6 +5,7 @@ const {MongoClient, ObjectId} = require('mongodb')
 require('dotenv').config()
 const PORT = 8000
 
+
 let db,
     dbConnectionStr = process.env.DB_STRING,
     dbName = 'sample_mflix',
@@ -25,7 +26,7 @@ app.get("/search", async(request,response) => {
     try{
         let result = await collection.aggregate([
             {
-                "$Search" : {
+                "$search" : {
                     "autocomplete" : {
                         "query" : `${request.query.query}`,
                         "path": "title",
@@ -38,6 +39,7 @@ app.get("/search", async(request,response) => {
             }
 
         ]).toArray()
+        console.log(result)
         response.send(result)
     } catch (error) {
         response.status(500).send({message: error.message})
@@ -47,7 +49,7 @@ app.get("/search", async(request,response) => {
 app.get("/get/:id", async (request, response) => {
     try {
         let result = await collection.findOne({
-            "_id" : ObjectId(request.params.id)
+            "_id" :  new ObjectId( request.params.id)
     })
     response.send(result)
     } catch (error) {
